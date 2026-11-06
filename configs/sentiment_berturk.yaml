@@ -1,0 +1,23 @@
+# Task B: Turkish sentiment analysis (Positive / Negative / Notr).
+task: sentiment
+
+data:
+  dataset_id: winvoker/turkish-sentiment-analysis-dataset
+  dataset_config: null
+  text_column: text
+  label_column: label
+  # The dataset has its own test split, so test_size is not used.
+  test_size: 0.15
+  # Validation fraction of the train split (stratified).
+  val_size: 0.10
+  seed: 42
+  cache_dir: data/hf_cache
+  processed_dir: data/processed/sentiment
+
+model:
+  name: dbmdz/bert-base-turkish-cased
+  max_length: 128
+
+summary:
+  # ~440k rows: token-length stats are estimated on a fixed-seed sample per split.
+  token_stats_sample: 20000

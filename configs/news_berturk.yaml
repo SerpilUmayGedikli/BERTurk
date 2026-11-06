@@ -1,0 +1,24 @@
+# Task A: Turkish news category classification (TTC4900, 7 classes).
+task: news
+
+data:
+  dataset_id: savasy/ttc4900
+  dataset_config: ttc4900
+  text_column: text
+  label_column: category
+  # TTC4900 ships only a "train" split, so a test split is carved out with this
+  # fraction (of the cleaned data). Ignored when the dataset has its own test split.
+  test_size: 0.15
+  # Validation fraction of the remaining train pool (stratified).
+  val_size: 0.15
+  seed: 42
+  cache_dir: data/hf_cache
+  processed_dir: data/processed/news
+
+model:
+  name: dbmdz/bert-base-turkish-cased
+  max_length: 128
+
+summary:
+  # Max examples per split to tokenize for length stats (null = all).
+  token_stats_sample: null

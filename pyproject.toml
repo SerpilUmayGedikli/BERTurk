@@ -1,0 +1,70 @@
+[project]
+name = "tcls"
+version = "0.1.0"
+description = "Turkish text classification (news category + sentiment) with BERTurk fine-tuning and a TF-IDF baseline"
+readme = "README.md"
+authors = [
+    { name = "Serpil Umay", email = "126962805+S-UmayyyGedikli@users.noreply.github.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "datasets>=5.1.0",
+    "matplotlib>=3.11.2",
+    "numpy>=2.4.6",
+    "pandas>=3.1.1",
+    "pyyaml>=6.0.3",
+    "scikit-learn>=1.9.1",
+    "transformers>=5.22.1",
+]
+
+# torch/gradio are kept out of the core install so CI stays light and
+# Colab/Kaggle can reuse their preinstalled CUDA torch: `pip install -e ".[train]"`.
+[project.optional-dependencies]
+train = [
+    "accelerate>=1.15.0",
+    "evaluate>=0.4.6",
+    "torch>=2.15.0",
+]
+demo = [
+    "gradio>=6.31.0",
+]
+
+[build-system]
+requires = ["uv_build>=0.11.29,<0.12.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "mypy>=2.4.1",
+    "pandas-stubs>=3.1.0.261029",
+    "pytest>=9.2.0",
+    "ruff>=0.17.4",
+    "types-pyyaml>=6.0.12.20261103",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF", "N"]
+# Turkish text is expected in strings and docstrings.
+allowed-confusables = ["ı", "İ"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+files = ["src", "tests"]
+
+[[tool.mypy.overrides]]
+module = ["sklearn.*", "datasets.*", "transformers.*", "torch.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["tests.*"]
+disallow_untyped_decorators = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-m 'not slow'"
+markers = ["slow: needs network or real model downloads (deselected by default)"]
