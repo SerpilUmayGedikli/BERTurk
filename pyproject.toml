@@ -23,7 +23,7 @@ dependencies = [
 train = [
     "accelerate>=1.15.0",
     "evaluate>=0.4.6",
-    "torch>=2.15.0",
+    "torch>=2.4",  # loose so Colab/Kaggle keep their preinstalled CUDA build
 ]
 demo = [
     "gradio>=6.31.0",
@@ -50,6 +50,10 @@ target-version = "py311"
 select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF", "N"]
 # Turkish text is expected in strings and docstrings.
 allowed-confusables = ["ı", "İ"]
+
+[tool.ruff.lint.per-file-ignores]
+# Notebook cells use IPython `!cmd {var}` escapes, which ruff cannot see as variable uses.
+"*.ipynb" = ["E402", "E501", "B007"]
 
 [tool.mypy]
 python_version = "3.11"

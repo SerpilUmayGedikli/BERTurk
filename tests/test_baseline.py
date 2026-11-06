@@ -11,14 +11,13 @@ import pytest
 
 from tcls.baseline import (
     BaselineSettings,
-    compute_metrics,
     parse_settings,
     render_markdown,
     run_baseline,
-    source_breakdown,
     turkish_lower,
 )
 from tcls.data import LABEL, SOURCE, TEXT
+from tcls.metrics import compute_metrics, source_breakdown
 from tcls.utils import load_config
 
 CONFIG_DIR = Path(__file__).resolve().parents[1] / "configs"

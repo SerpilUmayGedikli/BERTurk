@@ -5,6 +5,7 @@ from __future__ import annotations
 import logging
 import os
 import random
+from collections.abc import Mapping
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -72,12 +73,36 @@ class Config:
     raw: dict[str, Any] = field(default_factory=dict)
 
 
-def load_config(path: str | Path) -> Config:
-    """Read a YAML config into typed dataclasses (unknown sections stay in ``raw``)."""
-    with Path(path).open(encoding="utf-8") as f:
-        raw: dict[str, Any] = yaml.safe_load(f)
+def deep_merge(base: Mapping[str, Any], override: Mapping[str, Any]) -> dict[str, Any]:
+    """Recursively merge mappings; values in ``override`` win, lists are replaced."""
+    out = dict(base)
+    for key, value in override.items():
+        if isinstance(value, Mapping) and isinstance(out.get(key), Mapping):
+            out[key] = deep_merge(out[key], value)
+        else:
+            out[key] = value
+    return out
+
+
+def load_raw_config(path: str | Path, _seen: tuple[Path, ...] = ()) -> dict[str, Any]:
+    """Read YAML, resolving an optional ``base: other.yaml`` (relative to this file)."""
+    p = Path(path).resolve()
+    if p in _seen:
+        raise ValueError(f"Circular config inheritance: {[str(s) for s in (*_seen, p)]}")
+    with p.open(encoding="utf-8") as f:
+        raw = yaml.safe_load(f)
     if not isinstance(raw, dict):
         raise ValueError(f"Config {path} must be a mapping")
+    base = raw.pop("base", None)
+    if base is None:
+        return raw
+    parent = load_raw_config(p.parent / str(base), (*_seen, p))
+    return deep_merge(parent, raw)
+
+
+def load_config(path: str | Path) -> Config:
+    """Read a YAML config into typed dataclasses (unknown sections stay in ``raw``)."""
+    raw = load_raw_config(path)
     for key in ("task", "data", "model"):
         if key not in raw:
             raise ValueError(f"Config {path} is missing required key '{key}'")
