@@ -43,6 +43,7 @@ class DataConfig:
     text_column: str
     label_column: str
     dataset_config: str | None = None
+    source_column: str | None = None
     test_size: float = 0.15
     val_size: float = 0.1
     seed: int = 42

@@ -13,13 +13,13 @@ Full project spec: [`berturk_project_spec.md`](berturk_project_spec.md).
 | Stage | Status |
 |---|---|
 | 1. Skeleton and data | done |
-| 2. Baseline | NOT RUN |
+| 2. Baseline | done ([results](reports/baseline_results.md)) |
 | 3. BERTurk fine-tuning | NOT RUN |
 | 4. Evaluation and ablations | NOT RUN |
 | 5. Demo (HF Spaces) | NOT RUN |
 | 6. Polish | NOT RUN |
 
-No model results exist yet. Results will be added only from experiments that were actually run.
+Only baseline results exist so far. BERTurk results will be added only from experiments that were actually run.
 
 ## Data
 
@@ -68,6 +68,12 @@ Reproduce the data splits and summary (downloads the datasets to `data/`, which 
 
 ```bash
 uv run python -m tcls.data --config configs/news_berturk.yaml configs/sentiment_berturk.yaml
+```
+
+Baselines (TF-IDF word 1-2 grams; C chosen on validation; test evaluated once):
+
+```bash
+uv run python -m tcls.baseline --config configs/news_berturk.yaml configs/sentiment_berturk.yaml --notes reports/baseline_notes.md
 ```
 
 Checks (same as CI):

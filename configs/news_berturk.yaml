@@ -22,3 +22,24 @@ model:
 summary:
   # Max examples per split to tokenize for length stats (null = all).
   token_stats_sample: null
+
+baseline:
+  # TF-IDF settings are fixed; only C is tuned, on validation macro-F1.
+  tfidf:
+    ngram_range: [1, 2]
+    min_df: 2
+    max_df: 1.0
+    sublinear_tf: true
+    max_features: null
+  models:
+    logreg:
+      C: [0.1, 1.0, 10.0, 100.0]
+      max_iter: 2000
+    linear_svc:
+      C: [0.01, 0.1, 1.0, 10.0]
+      max_iter: 5000
+  # Extra LinearSVC fits (best C, these random_states) to measure its
+  # validation-only sensitivity to the solver's random shuffling.
+  svc_seed_check: [0, 1, 2]
+  top_features: 25
+  output: reports/baseline_news.json

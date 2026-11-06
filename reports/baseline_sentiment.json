@@ -1,0 +1,1089 @@
+{
+  "task": "sentiment",
+  "dataset_id": "winvoker/turkish-sentiment-analysis-dataset",
+  "seed": 42,
+  "sklearn_version": "1.9.1",
+  "labels": [
+    "Negative",
+    "Notr",
+    "Positive"
+  ],
+  "sizes": {
+    "train": 394642,
+    "validation": 43850,
+    "test": 48924
+  },
+  "tfidf": {
+    "ngram_range": [
+      1,
+      2
+    ],
+    "min_df": 2,
+    "max_df": 1.0,
+    "sublinear_tf": true,
+    "max_features": null,
+    "vocab_size": 756031
+  },
+  "vectorize_seconds": 30.9,
+  "models": {
+    "logreg": {
+      "selection": [
+        {
+          "C": 0.1,
+          "val_macro_f1": 0.861321456569236,
+          "val_accuracy": 0.9160091220068415,
+          "converged": true,
+          "fit_seconds": 35.23
+        },
+        {
+          "C": 1.0,
+          "val_macro_f1": 0.911171833745783,
+          "val_accuracy": 0.9437400228050171,
+          "converged": true,
+          "fit_seconds": 46.67
+        },
+        {
+          "C": 10.0,
+          "val_macro_f1": 0.9186792142227397,
+          "val_accuracy": 0.9487115165336374,
+          "converged": true,
+          "fit_seconds": 42.04
+        },
+        {
+          "C": 100.0,
+          "val_macro_f1": 0.9160255041751925,
+          "val_accuracy": 0.947502850627138,
+          "converged": true,
+          "fit_seconds": 63.79
+        }
+      ],
+      "best_C": 10.0,
+      "validation": {
+        "accuracy": 0.9487115165336374,
+        "macro_f1": 0.9186792142227397,
+        "per_class": {
+          "Negative": {
+            "precision": 0.8842655752614825,
+            "recall": 0.7708622398414272,
+            "f1": 0.8236789155988563,
+            "support": 5045
+          },
+          "Notr": {
+            "precision": 0.9686241932391846,
+            "recall": 0.9868489583333333,
+            "f1": 0.9776516495211067,
+            "support": 15360
+          },
+          "Positive": {
+            "precision": 0.9475276225685838,
+            "recall": 0.9619961612284069,
+            "f1": 0.954707077548256,
+            "support": 23445
+          }
+        },
+        "confusion_matrix": {
+          "labels": [
+            "Negative",
+            "Notr",
+            "Positive"
+          ],
+          "rows_true_cols_pred": [
+            [
+              3889,
+              84,
+              1072
+            ],
+            [
+              25,
+              15158,
+              177
+            ],
+            [
+              484,
+              407,
+              22554
+            ]
+          ]
+        }
+      },
+      "test": {
+        "accuracy": 0.9478987817839915,
+        "macro_f1": 0.9176681105029356,
+        "per_class": {
+          "Negative": {
+            "precision": 0.8738522954091816,
+            "recall": 0.7755535872453498,
+            "f1": 0.8217738151102769,
+            "support": 5645
+          },
+          "Notr": {
+            "precision": 0.9672902559394009,
+            "recall": 0.9862500731379088,
+            "f1": 0.9766781585885216,
+            "support": 17091
+          },
+          "Positive": {
+            "precision": 0.9491467834491091,
+            "recall": 0.9600198564227891,
+            "f1": 0.9545523578100084,
+            "support": 26188
+          }
+        },
+        "confusion_matrix": {
+          "labels": [
+            "Negative",
+            "Notr",
+            "Positive"
+          ],
+          "rows_true_cols_pred": [
+            [
+              4378,
+              118,
+              1149
+            ],
+            [
+              37,
+              16856,
+              198
+            ],
+            [
+              595,
+              452,
+              25141
+            ]
+          ]
+        }
+      },
+      "top_features": {
+        "Negative": [
+          [
+            "berbat",
+            15.2052
+          ],
+          [
+            "rezalet",
+            14.2286
+          ],
+          [
+            "pezevenk",
+            13.1348
+          ],
+          [
+            "ürün",
+            12.8056
+          ],
+          [
+            "orospu",
+            11.2442
+          ],
+          [
+            "sikem",
+            11.1484
+          ],
+          [
+            "sokam",
+            10.7583
+          ],
+          [
+            "beğenmedim",
+            10.6212
+          ],
+          [
+            "götlek",
+            10.2929
+          ],
+          [
+            "en kötü",
+            10.0958
+          ],
+          [
+            "bi",
+            9.9343
+          ],
+          [
+            "ürünü",
+            9.9178
+          ],
+          [
+            "amk",
+            9.8411
+          ],
+          [
+            "sokayım",
+            9.8407
+          ],
+          [
+            "bence",
+            9.4313
+          ],
+          [
+            "amcık",
+            9.1284
+          ],
+          [
+            "kancık",
+            9.0337
+          ],
+          [
+            "10",
+            8.9463
+          ],
+          [
+            "tavsiye",
+            8.8608
+          ],
+          [
+            "fiyasko",
+            8.8037
+          ],
+          [
+            "iğrenç",
+            8.6512
+          ],
+          [
+            "vasat",
+            8.6055
+          ],
+          [
+            "soytarı",
+            8.5796
+          ],
+          [
+            "gerizeka",
+            8.4701
+          ],
+          [
+            "gerzek",
+            8.3342
+          ]
+        ],
+        "Notr": [
+          [
+            "bulunmaktadır",
+            12.2632
+          ],
+          [
+            "bulunur",
+            10.2861
+          ],
+          [
+            "olmuştur",
+            10.087
+          ],
+          [
+            "sahiptir",
+            9.8805
+          ],
+          [
+            "genellikle",
+            9.8051
+          ],
+          [
+            "yapmıştır",
+            9.4401
+          ],
+          [
+            "almıştır",
+            9.1932
+          ],
+          [
+            "daha sonra",
+            8.9867
+          ],
+          [
+            "vardır",
+            8.7447
+          ],
+          [
+            "günümüzde",
+            8.2382
+          ],
+          [
+            "pek çok",
+            8.1247
+          ],
+          [
+            "albüm",
+            7.9993
+          ],
+          [
+            "böylece",
+            7.7877
+          ],
+          [
+            "bilinmemektedir",
+            7.7228
+          ],
+          [
+            "edilir",
+            7.5419
+          ],
+          [
+            "başlamıştır",
+            7.3327
+          ],
+          [
+            "ne var",
+            7.2914
+          ],
+          [
+            "kullanılmaktadır",
+            7.2709
+          ],
+          [
+            "başlar",
+            7.2008
+          ],
+          [
+            "mevcuttur",
+            7.1052
+          ],
+          [
+            "birçok",
+            7.0556
+          ],
+          [
+            "yapılır",
+            6.8045
+          ],
+          [
+            "köy",
+            6.7409
+          ],
+          [
+            "çeşitli",
+            6.719
+          ],
+          [
+            "bilinmektedir",
+            6.6804
+          ]
+        ],
+        "Positive": [
+          [
+            "ürün",
+            14.624
+          ],
+          [
+            "teşekkürler",
+            13.6611
+          ],
+          [
+            "tavsiye",
+            13.0484
+          ],
+          [
+            "tavsiye ederim",
+            12.3445
+          ],
+          [
+            "10 10",
+            12.237
+          ],
+          [
+            "memnunum",
+            12.159
+          ],
+          [
+            "ederim",
+            11.92
+          ],
+          [
+            "aldım",
+            11.77
+          ],
+          [
+            "gayet",
+            11.7061
+          ],
+          [
+            "kaliteli",
+            11.3654
+          ],
+          [
+            "bi",
+            10.9243
+          ],
+          [
+            "güzel",
+            10.5799
+          ],
+          [
+            "cok",
+            10.3216
+          ],
+          [
+            "kullanışlı",
+            9.5184
+          ],
+          [
+            "ürünü",
+            9.1344
+          ],
+          [
+            "mükemmel",
+            9.0653
+          ],
+          [
+            "hepsiburada",
+            9.0378
+          ],
+          [
+            "10",
+            8.8648
+          ],
+          [
+            "bir ürün",
+            8.8468
+          ],
+          [
+            "bence",
+            8.7667
+          ],
+          [
+            "mukemmel",
+            8.6853
+          ],
+          [
+            "kullanıyorum",
+            8.6041
+          ],
+          [
+            "memnunuz",
+            8.5482
+          ],
+          [
+            "sorunsuz",
+            8.2112
+          ],
+          [
+            "fiyat",
+            8.1074
+          ]
+        ]
+      },
+      "test_by_source": {
+        "HUMIR": {
+          "n": 6411,
+          "true": {
+            "Negative": 3232,
+            "Notr": 0,
+            "Positive": 3179
+          },
+          "pred": {
+            "Negative": 3169,
+            "Notr": 82,
+            "Positive": 3160
+          },
+          "accuracy": 0.90563094681017
+        },
+        "magaza_yorumlari": {
+          "n": 857,
+          "true": {
+            "Negative": 426,
+            "Notr": 0,
+            "Positive": 431
+          },
+          "pred": {
+            "Negative": 292,
+            "Notr": 14,
+            "Positive": 551
+          },
+          "accuracy": 0.8144690781796966
+        },
+        "random": {
+          "n": 43,
+          "true": {
+            "Negative": 0,
+            "Notr": 43,
+            "Positive": 0
+          },
+          "pred": {
+            "Negative": 1,
+            "Notr": 37,
+            "Positive": 5
+          },
+          "accuracy": 0.8604651162790697
+        },
+        "tweet-pn": {
+          "n": 1096,
+          "true": {
+            "Negative": 512,
+            "Notr": 0,
+            "Positive": 584
+          },
+          "pred": {
+            "Negative": 485,
+            "Notr": 192,
+            "Positive": 419
+          },
+          "accuracy": 0.7025547445255474
+        },
+        "urun_yorumlari": {
+          "n": 23469,
+          "true": {
+            "Negative": 1475,
+            "Notr": 0,
+            "Positive": 21994
+          },
+          "pred": {
+            "Negative": 1027,
+            "Notr": 282,
+            "Positive": 22160
+          },
+          "accuracy": 0.9478460948485236
+        },
+        "wiki": {
+          "n": 17048,
+          "true": {
+            "Negative": 0,
+            "Notr": 17048,
+            "Positive": 0
+          },
+          "pred": {
+            "Negative": 36,
+            "Notr": 16819,
+            "Positive": 193
+          },
+          "accuracy": 0.9865673392773345
+        }
+      }
+    },
+    "linear_svc": {
+      "selection": [
+        {
+          "C": 0.01,
+          "val_macro_f1": 0.8472351704229505,
+          "val_accuracy": 0.9081413911060433,
+          "converged": true,
+          "fit_seconds": 6.92
+        },
+        {
+          "C": 0.1,
+          "val_macro_f1": 0.9069418520076938,
+          "val_accuracy": 0.9417787913340935,
+          "converged": true,
+          "fit_seconds": 5.88
+        },
+        {
+          "C": 1.0,
+          "val_macro_f1": 0.921207933299122,
+          "val_accuracy": 0.9510148232611174,
+          "converged": true,
+          "fit_seconds": 11.66
+        },
+        {
+          "C": 10.0,
+          "val_macro_f1": 0.9139619705210226,
+          "val_accuracy": 0.946248574686431,
+          "converged": true,
+          "fit_seconds": 91.33
+        }
+      ],
+      "best_C": 1.0,
+      "validation": {
+        "accuracy": 0.9510148232611174,
+        "macro_f1": 0.921207933299122,
+        "per_class": {
+          "Negative": {
+            "precision": 0.8861936068918612,
+            "recall": 0.7748265609514371,
+            "f1": 0.8267766497461929,
+            "support": 5045
+          },
+          "Notr": {
+            "precision": 0.9707441711913127,
+            "recall": 0.9893880208333333,
+            "f1": 0.9799774302756731,
+            "support": 15360
+          },
+          "Positive": {
+            "precision": 0.950050454086781,
+            "recall": 0.963787587971849,
+            "f1": 0.9568697198755002,
+            "support": 23445
+          }
+        },
+        "confusion_matrix": {
+          "labels": [
+            "Negative",
+            "Notr",
+            "Positive"
+          ],
+          "rows_true_cols_pred": [
+            [
+              3909,
+              88,
+              1048
+            ],
+            [
+              23,
+              15197,
+              140
+            ],
+            [
+              479,
+              370,
+              22596
+            ]
+          ]
+        }
+      },
+      "val_seed_check": {
+        "random_states": [
+          0,
+          1,
+          2
+        ],
+        "val_macro_f1": [
+          0.921207933299122,
+          0.921207933299122,
+          0.921207933299122
+        ],
+        "max_minus_min": 0.0
+      },
+      "test": {
+        "accuracy": 0.9490025345433734,
+        "macro_f1": 0.9186376540925321,
+        "per_class": {
+          "Negative": {
+            "precision": 0.8750749550269838,
+            "recall": 0.7755535872453498,
+            "f1": 0.8223140495867769,
+            "support": 5645
+          },
+          "Notr": {
+            "precision": 0.9680174241990027,
+            "recall": 0.9881809139313089,
+            "f1": 0.9779952516069257,
+            "support": 17091
+          },
+          "Positive": {
+            "precision": 0.9504419430384529,
+            "recall": 0.9608217504200397,
+            "f1": 0.9556036610838935,
+            "support": 26188
+          }
+        },
+        "confusion_matrix": {
+          "labels": [
+            "Negative",
+            "Notr",
+            "Positive"
+          ],
+          "rows_true_cols_pred": [
+            [
+              4378,
+              119,
+              1148
+            ],
+            [
+              38,
+              16889,
+              164
+            ],
+            [
+              587,
+              439,
+              25162
+            ]
+          ]
+        }
+      },
+      "top_features": {
+        "Negative": [
+          [
+            "berbat",
+            6.365
+          ],
+          [
+            "rezalet",
+            5.3364
+          ],
+          [
+            "beğenmedim",
+            5.1801
+          ],
+          [
+            "pezevenk",
+            4.2286
+          ],
+          [
+            "sıkıcı",
+            4.0183
+          ],
+          [
+            "vasat",
+            3.9397
+          ],
+          [
+            "götlek",
+            3.6476
+          ],
+          [
+            "sokam",
+            3.6019
+          ],
+          [
+            "sikem",
+            3.5779
+          ],
+          [
+            "orospu",
+            3.5105
+          ],
+          [
+            "fiyasko",
+            3.4983
+          ],
+          [
+            "gerzek",
+            3.4346
+          ],
+          [
+            "tavsiye etmiyorum",
+            3.4327
+          ],
+          [
+            "amk",
+            3.4101
+          ],
+          [
+            "yazık",
+            3.3741
+          ],
+          [
+            "en kötü",
+            3.3346
+          ],
+          [
+            "etmiyorum",
+            3.3186
+          ],
+          [
+            "sokayım",
+            3.3116
+          ],
+          [
+            "memnun değilim",
+            3.2875
+          ],
+          [
+            "kötü",
+            3.2872
+          ],
+          [
+            "pişman oldum",
+            3.2737
+          ],
+          [
+            "iğrenç",
+            3.2602
+          ],
+          [
+            "önermiyorum",
+            3.2469
+          ],
+          [
+            "sıkıldım",
+            3.1965
+          ],
+          [
+            "iade",
+            3.1548
+          ]
+        ],
+        "Notr": [
+          [
+            "vardır",
+            3.3878
+          ],
+          [
+            "bulunmaktadır",
+            3.2769
+          ],
+          [
+            "bulunur",
+            3.0295
+          ],
+          [
+            "sahiptir",
+            3.0212
+          ],
+          [
+            "olmuştur",
+            2.8869
+          ],
+          [
+            "almıştır",
+            2.6064
+          ],
+          [
+            "pek çok",
+            2.4874
+          ],
+          [
+            "daha sonra",
+            2.4602
+          ],
+          [
+            "yapmıştır",
+            2.4463
+          ],
+          [
+            "tarafından",
+            2.3068
+          ],
+          [
+            "değildir",
+            2.2888
+          ],
+          [
+            "kullanılır",
+            2.2687
+          ],
+          [
+            "mevcuttur",
+            2.2655
+          ],
+          [
+            "biridir",
+            2.1839
+          ],
+          [
+            "genellikle",
+            2.1726
+          ],
+          [
+            "kullanılmaktadır",
+            2.1714
+          ],
+          [
+            "içerir",
+            2.1564
+          ],
+          [
+            "sağlar",
+            2.146
+          ],
+          [
+            "başlamıştır",
+            2.1452
+          ],
+          [
+            "başlar",
+            2.138
+          ],
+          [
+            "yapılır",
+            2.1021
+          ],
+          [
+            "oluşturur",
+            2.1007
+          ],
+          [
+            "almaktadır",
+            2.0834
+          ],
+          [
+            "bilinmektedir",
+            2.0714
+          ],
+          [
+            "günümüzde",
+            2.0708
+          ]
+        ],
+        "Positive": [
+          [
+            "mükemmel",
+            4.6395
+          ],
+          [
+            "harika",
+            4.5273
+          ],
+          [
+            "teşekkürler",
+            4.4503
+          ],
+          [
+            "10 10",
+            4.2292
+          ],
+          [
+            "güzel",
+            3.9337
+          ],
+          [
+            "memnunum",
+            3.7785
+          ],
+          [
+            "süper",
+            3.46
+          ],
+          [
+            "gayet",
+            3.2584
+          ],
+          [
+            "kaliteli",
+            3.2123
+          ],
+          [
+            "tavsiye edilir",
+            3.1944
+          ],
+          [
+            "muhteşem",
+            3.0648
+          ],
+          [
+            "ederim",
+            3.0432
+          ],
+          [
+            "izlenmeli",
+            2.8567
+          ],
+          [
+            "müthiş",
+            2.8101
+          ],
+          [
+            "beğendim",
+            2.8028
+          ],
+          [
+            "şık",
+            2.7762
+          ],
+          [
+            "güzeldi",
+            2.7536
+          ],
+          [
+            "mukemmel",
+            2.7512
+          ],
+          [
+            "filme kötü",
+            2.7242
+          ],
+          [
+            "sorunsuz",
+            2.7015
+          ],
+          [
+            "kullanışlı",
+            2.6997
+          ],
+          [
+            "memnunuz",
+            2.6649
+          ],
+          [
+            "harikaydı",
+            2.5384
+          ],
+          [
+            "kaçırmayın",
+            2.5103
+          ],
+          [
+            "bahsederim",
+            2.4346
+          ]
+        ]
+      },
+      "test_by_source": {
+        "HUMIR": {
+          "n": 6411,
+          "true": {
+            "Negative": 3232,
+            "Notr": 0,
+            "Positive": 3179
+          },
+          "pred": {
+            "Negative": 3142,
+            "Notr": 93,
+            "Positive": 3176
+          },
+          "accuracy": 0.9079706754016534
+        },
+        "magaza_yorumlari": {
+          "n": 857,
+          "true": {
+            "Negative": 426,
+            "Notr": 0,
+            "Positive": 431
+          },
+          "pred": {
+            "Negative": 301,
+            "Notr": 12,
+            "Positive": 544
+          },
+          "accuracy": 0.8179696616102684
+        },
+        "random": {
+          "n": 43,
+          "true": {
+            "Negative": 0,
+            "Notr": 43,
+            "Positive": 0
+          },
+          "pred": {
+            "Negative": 1,
+            "Notr": 36,
+            "Positive": 6
+          },
+          "accuracy": 0.8372093023255814
+        },
+        "tweet-pn": {
+          "n": 1096,
+          "true": {
+            "Negative": 512,
+            "Notr": 0,
+            "Positive": 584
+          },
+          "pred": {
+            "Negative": 503,
+            "Notr": 199,
+            "Positive": 394
+          },
+          "accuracy": 0.6934306569343066
+        },
+        "urun_yorumlari": {
+          "n": 23469,
+          "true": {
+            "Negative": 1475,
+            "Notr": 0,
+            "Positive": 21994
+          },
+          "pred": {
+            "Negative": 1019,
+            "Notr": 254,
+            "Positive": 22196
+          },
+          "accuracy": 0.9484000170437599
+        },
+        "wiki": {
+          "n": 17048,
+          "true": {
+            "Negative": 0,
+            "Notr": 17048,
+            "Positive": 0
+          },
+          "pred": {
+            "Negative": 37,
+            "Notr": 16853,
+            "Positive": 158
+          },
+          "accuracy": 0.9885617081182544
+        }
+      }
+    }
+  }
+}

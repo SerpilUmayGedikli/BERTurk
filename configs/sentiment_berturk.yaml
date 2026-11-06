@@ -6,6 +6,8 @@ data:
   dataset_config: null
   text_column: text
   label_column: label
+  # Origin of each row (wiki, urun_yorumlari, ...). Kept for analysis only, never a feature.
+  source_column: dataset
   # The dataset has its own test split, so test_size is not used.
   test_size: 0.15
   # Validation fraction of the train split (stratified).
@@ -21,3 +23,24 @@ model:
 summary:
   # ~440k rows: token-length stats are estimated on a fixed-seed sample per split.
   token_stats_sample: 20000
+
+baseline:
+  # TF-IDF settings are fixed; only C is tuned, on validation macro-F1.
+  tfidf:
+    ngram_range: [1, 2]
+    min_df: 2
+    max_df: 1.0
+    sublinear_tf: true
+    max_features: null
+  models:
+    logreg:
+      C: [0.1, 1.0, 10.0, 100.0]
+      max_iter: 2000
+    linear_svc:
+      C: [0.01, 0.1, 1.0, 10.0]
+      max_iter: 5000
+  # Extra LinearSVC fits (best C, these random_states) to measure its
+  # validation-only sensitivity to the solver's random shuffling.
+  svc_seed_check: [0, 1, 2]
+  top_features: 25
+  output: reports/baseline_sentiment.json

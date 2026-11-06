@@ -28,6 +28,7 @@ logger = get_logger(__name__)
 
 TEXT = "text"
 LABEL = "label"
+SOURCE = "source"
 _WS = re.compile(r"\s+")
 
 
@@ -49,9 +50,11 @@ def load_raw(cfg: DataConfig) -> dict[str, pd.DataFrame]:
         names: list[str] | None = getattr(feature, "names", None)
         df = split.to_pandas()
         assert isinstance(df, pd.DataFrame)
-        df = df[[cfg.text_column, cfg.label_column]].rename(
-            columns={cfg.text_column: TEXT, cfg.label_column: LABEL}
-        )
+        columns = {cfg.text_column: TEXT, cfg.label_column: LABEL}
+        if cfg.source_column is not None:
+            # Kept for analysis only (e.g. shortcut checks); never used as a feature.
+            columns[cfg.source_column] = SOURCE
+        df = df[list(columns)].rename(columns=columns)
         if names is not None:
             df[LABEL] = [names[i] for i in df[LABEL]]
         df[LABEL] = df[LABEL].astype(str)
