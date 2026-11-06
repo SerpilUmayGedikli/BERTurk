@@ -19,18 +19,31 @@ jobs:
       - name: Set up Python
         run: uv python install 3.11
 
-      # Core + dev only: no torch/gradio needed for the default test run.
+      # Core + dev from the lockfile.
       - name: Install dependencies
         run: uv sync --locked
 
+      # The MCP server tests need torch + mcp (the `serve` extra). The lockfile's Linux
+      # torch pulls ~2.5 GB of CUDA libraries, so install the locked versions of everything
+      # except torch/CUDA, then the same torch version from the CPU wheel index.
+      - name: Install serve extra (CPU torch)
+        run: |
+          uv export --locked --extra serve --no-hashes --no-annotate --no-header --no-emit-project \
+            | grep -v -E '^(torch|triton|nvidia-|cuda-)' > /tmp/serve-reqs.txt
+          TORCH=$(uv export --locked --extra serve --no-hashes --no-annotate --no-header \
+            | grep -E '^torch==' | cut -d' ' -f1)
+          uv pip install -r /tmp/serve-reqs.txt
+          uv pip install "$TORCH" --index-url https://download.pytorch.org/whl/cpu
+          uv run --no-sync python -c "import torch, mcp; print('torch', torch.__version__)"
+
       - name: Ruff lint
-        run: uv run ruff check .
+        run: uv run --no-sync ruff check .
 
       - name: Ruff format
-        run: uv run ruff format --check .
+        run: uv run --no-sync ruff format --check .
 
       - name: Mypy
-        run: uv run mypy
+        run: uv run --no-sync mypy
 
       - name: Pytest
-        run: uv run pytest
+        run: uv run --no-sync pytest

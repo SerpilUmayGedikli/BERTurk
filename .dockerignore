@@ -1,0 +1,13 @@
+.git
+.github
+.venv
+data
+checkpoints
+notebooks
+reports
+benchmarks
+tests
+**/__pycache__
+**/*.safetensors
+.env
+.env.*
