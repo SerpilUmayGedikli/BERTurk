@@ -14,12 +14,13 @@ Full project spec: [`berturk_project_spec.md`](berturk_project_spec.md).
 |---|---|
 | 1. Skeleton and data | done |
 | 2. Baseline | done ([results](reports/baseline_results.md)) |
-| 3. BERTurk fine-tuning | NOT RUN |
+| 3. BERTurk fine-tuning | code + CPU smoke test done; full runs NOT RUN (to be run on Colab/Kaggle) |
 | 4. Evaluation and ablations | NOT RUN |
 | 5. Demo (HF Spaces) | NOT RUN |
 | 6. Polish | NOT RUN |
 
-Only baseline results exist so far. BERTurk results will be added only from experiments that were actually run.
+Only baseline results exist so far. No BERTurk training run has been done yet: every full run below is
+NOT RUN (to be run on Colab/Kaggle). BERTurk numbers will be added only from runs that were actually done.
 
 ## Data
 
@@ -56,6 +57,81 @@ in test is removed from train. The test split itself is never reduced by this st
   main metric.
 - 352 sentiment train texts also appeared in the official test split and were removed from
   train.
+
+## BERTurk fine-tuning (Aşama 3)
+
+`python -m tcls.train --config <yaml> --seed <int> [--smoke]` fine-tunes with
+`AutoModelForSequenceClassification` + `Trainer`. Every hyperparameter is in the YAML
+(`training:` section; variants inherit with `base:`).
+
+- **Model selection:** the Trainer evaluates on **validation** each epoch, early-stops on
+  validation macro-F1 and reloads the best-on-validation checkpoint. Test is scored **once**,
+  at the end of each run.
+- **Output:** one JSON per run, `reports/berturk_<task>_<tag>_seed<N>.json`. It holds
+  val/test accuracy, macro-F1, per-class P/R/F1, the confusion matrix, hyperparameters,
+  training time and GPU name. Sentiment runs also include `Notr` P/R and per-source test
+  metrics; the source is used for analysis only, never as a feature.
+- **Checkpoints** are saved to `--output-dir` (or `$TCLS_OUTPUT_DIR`, or
+  `training.output_dir`), which should be outside the repo, e.g. Drive or `/kaggle/working`.
+- `--smoke` runs a stratified subset (200 train / 100 val / 100 test, max_length 64, 1 epoch)
+  on CPU. It only checks that the pipeline works. Its JSON goes to `data/smoke_reports/`
+  (gitignored), and its metrics are not results.
+
+Planned runs, 3 seeds each (42, 43, 44). **All NOT RUN (to be run on Colab/Kaggle):**
+
+| config | task | what changes |
+|---|---|---|
+| `configs/news_berturk.yaml` | news | max_length 128 (spec starting point) |
+| `configs/news_berturk_len256.yaml` | news | max_length 256 |
+| `configs/news_berturk_len512.yaml` | news | max_length 512 |
+| `configs/news_berturk_len512_headtail.yaml` | news | 512 tokens: first 128 + last 382 |
+| `configs/sentiment_berturk.yaml` | sentiment | max_length 128, stratified 50k train subset |
+| `configs/sentiment_berturk_weighted.yaml` | sentiment | same + class-weighted loss |
+
+The effective batch size is 32 everywhere: for longer inputs, per-device batch × gradient
+accumulation is 16×2 or 8×4. Sentiment trains on a stratified, seeded 50k subset of the
+394,642 training rows (`max_train_samples`) so that 3 seeds fit in free GPU time.
+Validation and test are always complete.
+
+### Colab
+
+Open `notebooks/colab_train.ipynb`, choose *Runtime → T4 GPU*, set `REPO_URL`, then run all.
+The notebook installs the package, mounts Drive, optionally reads `HF_TOKEN` from Colab
+Secrets (never printed), rebuilds the splits and calls `python -m tcls.train` for every
+config × seed. Run JSONs go straight to Drive, and `--skip-existing` lets a disconnected
+session resume.
+
+### Kaggle
+
+1. New notebook → *Settings*: Accelerator **GPU T4**, Internet **on**. Optional: *Add-ons →
+   Secrets* → `HF_TOKEN`.
+2. Run:
+
+```bash
+export CUDA_VISIBLE_DEVICES=0   # "T4 x2" would otherwise double the effective batch via DataParallel
+git clone --depth 1 <REPO_URL> repo && cd repo
+pip install -q -e ".[train]"
+python -m tcls.data --config configs/news_berturk.yaml configs/sentiment_berturk.yaml --no-tokens --summary /kaggle/working/data_summary.md
+for cfg in configs/news_berturk.yaml configs/news_berturk_len256.yaml configs/news_berturk_len512.yaml configs/news_berturk_len512_headtail.yaml configs/sentiment_berturk.yaml configs/sentiment_berturk_weighted.yaml; do
+  for seed in 42 43 44; do
+    python -m tcls.train --config "$cfg" --seed "$seed" --output-dir /kaggle/working/checkpoints --report-dir /kaggle/working/reports --skip-existing
+  done
+done
+cp /kaggle/working/reports/berturk_*.json reports/
+python -m tcls.aggregate --configs configs/*.yaml
+```
+
+In a Kaggle notebook, put each line in a `!` cell, or wrap the block in `%%bash`. For
+`HF_TOKEN`, use
+`os.environ["HF_TOKEN"] = UserSecretsClient().get_secret("HF_TOKEN")` (from
+`kaggle_secrets`) and never print it. Watch the weekly GPU quota on your Kaggle account page.
+Download `/kaggle/working/reports/*.json` into the repo's `reports/` and commit them.
+
+### Aggregation
+
+`python -m tcls.aggregate --configs configs/*.yaml` writes `reports/berturk_summary.{md,json}`.
+It reports mean ± sample std (ddof=1) over seeds next to the deterministic baselines, and
+marks every planned config without runs as NOT RUN.
 
 ## Setup
 

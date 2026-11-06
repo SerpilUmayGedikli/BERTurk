@@ -1,0 +1,8 @@
+# Planned run: news, max_length 256 (effective batch 32 = 16 x 2).
+base: news_berturk.yaml
+model:
+  max_length: 256
+training:
+  tag: len256
+  per_device_train_batch_size: 16
+  gradient_accumulation_steps: 2

@@ -145,6 +145,17 @@ def stratified_split(
     return rest.reset_index(drop=True), held.reset_index(drop=True)
 
 
+def stratified_subsample(df: pd.DataFrame, n: int | None, seed: int) -> pd.DataFrame:
+    """Seeded, label-stratified subset of ``n`` rows (the full frame if ``n`` is None/too big)."""
+    if n is None or n >= len(df):
+        return df.reset_index(drop=True)
+    if n <= 0:
+        raise ValueError(f"n must be positive, got {n}")
+    subset, _ = train_test_split(df, train_size=n, random_state=seed, stratify=df[LABEL])
+    assert isinstance(subset, pd.DataFrame)
+    return subset.reset_index(drop=True)
+
+
 @dataclass
 class PreparedData:
     train: pd.DataFrame

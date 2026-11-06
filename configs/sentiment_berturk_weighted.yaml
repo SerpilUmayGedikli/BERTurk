@@ -1,0 +1,6 @@
+# Planned run: sentiment with inverse-frequency class-weighted cross-entropy
+# (Negative is the minority class at 11.5%).
+base: sentiment_berturk.yaml
+training:
+  tag: len128_n50k_weighted
+  class_weighted_loss: true

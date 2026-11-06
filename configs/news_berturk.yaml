@@ -17,6 +17,7 @@ data:
 
 model:
   name: dbmdz/bert-base-turkish-cased
+  # Uncased alternative (verified on the Hub 2026-11-06, MIT): dbmdz/bert-base-turkish-uncased
   max_length: 128
 
 summary:
@@ -43,3 +44,32 @@ baseline:
   svc_seed_check: [0, 1, 2]
   top_features: 25
   output: reports/baseline_news.json
+
+training:
+  # Spec starting point (max_length 128). 87% of TTC4900 texts exceed 128 tokens, so the
+  # planned comparison runs are news_berturk_len256 / _len512 / _len512_headtail.
+  tag: len128
+  learning_rate: 2.0e-5
+  per_device_train_batch_size: 32
+  per_device_eval_batch_size: 64
+  gradient_accumulation_steps: 1
+  num_train_epochs: 4
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  fp16: auto            # fp16 on CUDA (T4); bf16 is never used
+  early_stopping_patience: 1
+  class_weighted_loss: false
+  max_train_samples: null
+  truncation: head      # head | head_tail
+  head_tokens: 128      # used only with head_tail
+  output_dir: checkpoints   # override with --output-dir or $TCLS_OUTPUT_DIR (e.g. Drive)
+  save_total_limit: 2
+  logging_steps: 50
+  report_dir: reports
+  focus_label: null
+  smoke:
+    train_samples: 200
+    eval_samples: 100
+    max_length: 64
+    epochs: 1
+    batch_size: 16

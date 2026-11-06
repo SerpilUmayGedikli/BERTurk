@@ -18,6 +18,7 @@ data:
 
 model:
   name: dbmdz/bert-base-turkish-cased
+  # Uncased alternative (verified on the Hub 2026-11-06, MIT): dbmdz/bert-base-turkish-uncased
   max_length: 128
 
 summary:
@@ -44,3 +45,32 @@ baseline:
   svc_seed_check: [0, 1, 2]
   top_features: 25
   output: reports/baseline_sentiment.json
+
+training:
+  tag: len128_n50k
+  learning_rate: 2.0e-5
+  per_device_train_batch_size: 32
+  per_device_eval_batch_size: 128
+  gradient_accumulation_steps: 1
+  num_train_epochs: 3
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  fp16: auto
+  early_stopping_patience: 1
+  class_weighted_loss: false
+  # 394,642 train rows is too much for 3 seeds on a free T4; train on a stratified,
+  # seeded 50k subset. Validation and test stay complete.
+  max_train_samples: 50000
+  truncation: head      # p95 is ~90 tokens, so 128 covers ~98% of texts
+  head_tokens: 64
+  output_dir: checkpoints
+  save_total_limit: 2
+  logging_steps: 100
+  report_dir: reports
+  focus_label: Notr
+  smoke:
+    train_samples: 200
+    eval_samples: 100
+    max_length: 64
+    epochs: 1
+    batch_size: 16
