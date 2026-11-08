@@ -1,0 +1,17 @@
+# MODEL_DIR=/abs/path/to/checkpoint docker compose run --rm -T berturk-mcp
+# Optional: MODEL_REPORT=/reports/<run>.json (a run JSON from tcls.train, read from
+# REPORTS_DIR, default ./reports) fills the metrics in the model://card resource.
+services:
+  berturk-mcp:
+    build: .
+    image: tcls-mcp:latest
+    stdin_open: true # MCP over stdio needs an open stdin
+    environment:
+      MODEL_PATH: /models
+      MODEL_REPORT: ${MODEL_REPORT:-}
+      MAX_BATCH: ${MAX_BATCH:-64}
+      DEVICE: cpu
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    volumes:
+      - ${MODEL_DIR:?set MODEL_DIR to a checkpoint directory}:/models:ro
+      - ${REPORTS_DIR:-./reports}:/reports:ro

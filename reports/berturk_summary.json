@@ -1,0 +1,24 @@
+{
+  "news": {
+    "len128": {
+      "status": "NOT RUN (to be run on Colab/Kaggle)"
+    },
+    "len256": {
+      "status": "NOT RUN (to be run on Colab/Kaggle)"
+    },
+    "len512": {
+      "status": "NOT RUN (to be run on Colab/Kaggle)"
+    },
+    "len512_headtail": {
+      "status": "NOT RUN (to be run on Colab/Kaggle)"
+    }
+  },
+  "sentiment": {
+    "len128_n50k": {
+      "status": "NOT RUN (to be run on Colab/Kaggle)"
+    },
+    "len128_n50k_weighted": {
+      "status": "NOT RUN (to be run on Colab/Kaggle)"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+# Planned run: news, max_length 512 keeping the first 128 and the last 382 tokens
+# (head+tail truncation, Sun et al. 2019) instead of only the first 510.
+base: news_berturk_len512.yaml
+training:
+  tag: len512_headtail
+  truncation: head_tail
+  head_tokens: 128
